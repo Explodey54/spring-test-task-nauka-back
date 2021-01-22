@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.column {
+  display: inline-block;
+  width: 100px;
+
+  &--id {
+    width: 30px;
+  }
+
+  :not(:last-of-type) {
+    margin-right: 5px;
+  }
+}

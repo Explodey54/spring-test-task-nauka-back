@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+}
+
+.route {
+  text-decoration: none;
+  padding: 10px;
+  background-color: lightyellow;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+}

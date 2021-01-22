@@ -1,0 +1,25 @@
+<crud-header
+  class="header"
+></crud-header>
+<div>
+  <button (click)="onCreate()">Create</button>
+</div>
+<crud-filter
+  *ngIf="crudConfig.filterFields"
+  [config]="crudConfig"
+  (submitForm)="onFilterSubmit($event)"
+></crud-filter>
+<crud-viewer
+  class="crud-viewer"
+  [config]="crudConfig"
+  [entityList]="entityList$ | async"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+></crud-viewer>
+<crud-form
+  *ngIf="showForm$ | async"
+  [config]="crudConfig"
+  [entity]="formEntity$ | async"
+  (submitForm)="onFormSubmit($event)"
+></crud-form>
+<span *ngIf="error$ | async" class="error">{{ error$ | async }}</span>

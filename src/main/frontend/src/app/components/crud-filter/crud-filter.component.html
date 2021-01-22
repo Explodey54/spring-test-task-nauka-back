@@ -1,0 +1,7 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <label *ngFor="let field of config?.filterFields">
+    {{ field.title }}
+    <input [formControlName]="field.path">
+  </label>
+  <input type="submit" value="Filter">
+</form>

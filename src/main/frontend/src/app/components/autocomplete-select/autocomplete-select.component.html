@@ -1,0 +1,16 @@
+<select [formControl]="select">
+  <option
+    *ngIf="isLoading$ | async"
+    disabled="true"
+    selected="true"
+  >Loading..</option>
+  <option
+    *ngIf="error$ | async"
+    disabled="true"
+    selected="true"
+  >{{ error$ | async }}</option>
+  <option
+    *ngFor="let autocomplete of autocompleteList$ | async"
+    [value]="autocomplete.id"
+  >{{ autocomplete.title }}</option>
+</select>

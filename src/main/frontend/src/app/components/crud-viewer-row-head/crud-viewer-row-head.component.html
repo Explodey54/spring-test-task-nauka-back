@@ -1,0 +1,12 @@
+<ng-container *ngIf="config">
+  <div
+    *ngFor="let column of config.fields | callback:filterReadableFields"
+    [class.column--id]="column.isId"
+    class="column"
+    test-id="column"
+
+  >
+    <span>{{ column.title }}</span>
+  </div>
+  <div class="column"></div>
+</ng-container>

@@ -1,0 +1,32 @@
+<form *ngIf="formGroup" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <ng-container *ngFor="let field of configEditableFields">
+    <label class="label">
+      {{ field.title }}
+      <input
+        *ngIf="field.type === 'TEXT' || !field.type"
+        [formControlName]="field.writePath || field.path"
+      >
+      <input
+        *ngIf="field.type === 'COLOR'"
+        type="color"
+        [formControlName]="field.writePath || field.path"
+      >
+      <input
+        *ngIf="field.type === 'DATE'"
+        type="date"
+        [formControlName]="field.writePath || field.path"
+      >
+      <input
+        *ngIf="field.type === 'CHECKBOX'"
+        type="checkbox"
+        [formControlName]="field.writePath || field.path"
+      >
+      <autocomplete-select
+        *ngIf="field.type === 'SELECT'"
+        [endpoint]="field.params"
+        [formControlName]="field.writePath || field.path"
+      ></autocomplete-select>
+    </label>
+  </ng-container>
+  <input type="submit" value="Submit">
+</form>

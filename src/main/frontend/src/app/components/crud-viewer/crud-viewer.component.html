@@ -1,0 +1,10 @@
+<crud-viewer-row-head
+  class="row-head"
+  [config]="config"
+></crud-viewer-row-head>
+<crud-viewer-row *ngFor="let entity of entityList"
+   [config]="config"
+   [entity]="entity"
+   (edit)="onEdit($event)"
+   (delete)="onDelete($event)"
+></crud-viewer-row>

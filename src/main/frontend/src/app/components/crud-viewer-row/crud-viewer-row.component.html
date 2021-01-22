@@ -1,0 +1,25 @@
+<ng-container *ngIf="config">
+  <div
+    class="column"
+    test-id="column"
+    [ngClass]="{'column--id': column.isId}"
+    *ngFor="let column of config.fields|callback:filterReadableFields"
+  >
+    <ng-container *ngIf="entity">
+      <span *ngIf="!column.type || column.type !== 'COLOR'" >
+        {{ entity | property:column.path }}
+      </span>
+      <span
+        *ngIf="column.type === 'COLOR'"
+        class="color-indicator"
+        [style.background-color]="entity | property:column.path"
+      ></span>
+    </ng-container>
+
+  </div>
+  <div class="column column--controls">
+    <button (click)="onEdit()">Edit</button>
+    <button (click)="onDelete()">Delete</button>
+  </div>
+</ng-container>
+

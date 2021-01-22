@@ -1,0 +1,6 @@
+<a
+  *ngFor="let route of routes"
+  class="route"
+  [routerLink]="'/' + route.path"
+>{{ route.path }}</a>
+
