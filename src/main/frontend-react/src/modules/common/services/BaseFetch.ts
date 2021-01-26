@@ -1,29 +1,34 @@
 import Auth from "./Auth";
 import config from "../../../config";
+import {HttpResponseSuccess} from "../types/HttpResponse";
 
 const createFullUrl = (url: string): string => {
     const baseApi = config.baseApi;
-    return baseApi + url;
+    return `${baseApi}/${url}`;
 }
 
-const BaseFetch = {
-    fetch: (url: string, config?: RequestInit): Promise<Response> => {
-        const token = Auth.getToken();
-        if (!config) config = {};
+const fetch = (url: string, config?: RequestInit): Promise<Response> => {
+    const token = Auth.getToken();
+    if (!config) config = {};
 
+    config.headers = {
+        ...config.headers,
+        'Content-Type': 'application/json'
+    }
+
+    if (token) {
         config.headers = {
             ...config.headers,
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${token}`
         }
-
-        if (token) {
-            config.headers = {
-                ...config.headers,
-                Authorization: `Bearer ${token}`
-            }
-        }
-        return fetch(createFullUrl(url), config);
     }
-};
+    return window.fetch(createFullUrl(url), config);
+}
+
+const fetchJson = <T = any>(url: string, config?: RequestInit): Promise<HttpResponseSuccess<T>> => {
+    return fetch(url, config).then(i => i.json());
+}
+
+const BaseFetch = { fetch, fetchJson };
 
 export default BaseFetch;

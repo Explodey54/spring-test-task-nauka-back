@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import AuthForm, {IAuthForm} from "../AuthForm/AuthForm";
-import Auth from "../../common/services/Auth";
+import AuthForm, {IAuthForm} from "../../components/AuthForm/AuthForm";
+import Auth from "../../../common/services/Auth";
 
 function AuthPage() {
     const history = useHistory();

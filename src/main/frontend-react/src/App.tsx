@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import PrivateRoute from "./modules/common/components/PrivateRoute";
-import AuthPage from "./modules/auth/AuthPage/AuthPage";
+import AuthPage from "./modules/auth/pages/AuthPage/AuthPage";
 import MainPage from "./modules/main/MainPage";
 import Auth from "./modules/common/services/Auth";
 
@@ -17,8 +17,7 @@ function App() {
                     redirect='/'
                 />
                 <PrivateRoute
-                    exact
-                    path="/"
+                    path="/*"
                     component={MainPage}
                     canAccess={() => Auth.isLoggedIn()}
                     redirect='/auth'
