@@ -1,14 +1,15 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Router, Switch } from 'react-router-dom';
 import PrivateRoute from "./modules/common/components/PrivateRoute";
 import AuthPage from "./modules/auth/pages/AuthPage/AuthPage";
 import MainPage from "./modules/main/MainPage";
 import Auth from "./modules/common/services/Auth";
+import RouterHistory from "./modules/common/services/RouterHistory";
 
 function App() {
     return (
-        <Router>
+        <Router history={RouterHistory}>
             <Switch>
                 <PrivateRoute
                     path="/auth"

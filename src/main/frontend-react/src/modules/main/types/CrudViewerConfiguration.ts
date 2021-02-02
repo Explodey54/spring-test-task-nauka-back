@@ -1,5 +1,5 @@
 export enum ECrudViewerInputType {
-  Text = "TEXT", Select = "SELECT", Color = "COLOR", Date = "DATE", Checkbox = "CHECKBOX"
+  Text, Autocomplete, Color, Date, Checkbox
 }
 
 export interface ICrudViewerConfigurationField {

@@ -1,10 +1,14 @@
 import {ICrudViewerConfiguration} from "../../types/CrudViewerConfiguration";
 import React from "react";
+import styles from './CrudViewer.module.scss';
 import CrudViewerRow from "../CrudViewerRow/CrudViewerRow";
+import CrudViewerRowHead from "../CrudViewerRowHead/CrudViewerRowHead";
 
 interface IProps<T> {
     config: ICrudViewerConfiguration;
-    entities: T[] | null;
+    entities: T[] | undefined;
+    onEdit?: (entity: T) => unknown;
+    onDelete?: (entity: T) => unknown;
 }
 
 export default function CrudViewer<T>(props: IProps<T>) {
@@ -12,11 +16,19 @@ export default function CrudViewer<T>(props: IProps<T>) {
     if (!entities || !config) {
         return <span>Loading...</span>;
     }
+
     return (
-        <React.Fragment>
+        <div className={styles.table}>
+            <CrudViewerRowHead config={config}/>
             {entities.map((entity, index) =>
-                <CrudViewerRow config={config} entity={entity} key={index}/>
+                <CrudViewerRow
+                    config={config}
+                    entity={entity}
+                    key={index}
+                    onEdit={props.onEdit}
+                    onDelete={props.onDelete}
+                />
             )}
-        </React.Fragment>
+        </div>
     );
 }

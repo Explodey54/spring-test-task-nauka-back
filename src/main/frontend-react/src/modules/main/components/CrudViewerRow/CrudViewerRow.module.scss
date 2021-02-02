@@ -1,0 +1,19 @@
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  min-width: 80px;
+
+  &.cellId {
+    min-width: 40px;
+  }
+}
+
+.colorIndicator {
+  width: 20px;
+  height: 20px;
+}
+
+

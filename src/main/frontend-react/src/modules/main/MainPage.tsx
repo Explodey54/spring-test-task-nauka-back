@@ -1,78 +1,68 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import {History} from 'history';
 import Auth from "../common/services/Auth";
-import {crudRoutes} from "./crud-routes";
-import BaseFetch from "../common/services/BaseFetch";
+import CrudRoutes from "./CrudRoutes";
 import {ICrudViewerConfiguration} from "./types/CrudViewerConfiguration";
 import CrudViewer from "./components/CrudViewer/CrudViewer";
+import CrudForm from "./components/CrudForm/CrudForm";
+import CrudFetch from "../common/services/CrudFetch";
+import Identifiable from "./types/Identifiable";
+import CrudLinkList from "./components/CrudLinkList/CrudLinkList";
+import {Route, Switch } from 'react-router-dom';
+import CrudContainer from "./containers/CrudContainer";
+
+
 
 interface IProps {
     history: History;
 }
+//
+// interface IState<T> {
+//     entityList?: T[];
+//     selectedEntity?: T;
+//     formAction?: EFormAction;
+//     isFormVisible: boolean;
+// }
 
-interface IState<T> {
-    entityList: T[] | null;
-}
-
-class MainPage<T> extends React.Component<IProps, IState<T>> {
-    private readonly currentRoute?: ICrudViewerConfiguration;
-
-    constructor(props: IProps) {
-        super(props);
-        const { history } = props;
-        this.state = {
-            entityList: null
-        };
-
-        // check if current route is found from url
-        // if not found get and push first one from list
-        this.currentRoute = this.getCurrentCrudRoute();
-        if (!this.currentRoute) {
-            const firstCrudRoute = crudRoutes.find(Boolean);
-            if (firstCrudRoute) {
-                history.push(firstCrudRoute.path);
-            }
-        }
-    }
-
-    componentDidMount(): void {
-        if (!this.currentRoute) return;
-        this.fetchAll(this.currentRoute);
-    }
+class MainPage<T extends Identifiable> extends React.Component<IProps> {
+    // constructor(props: IProps) {
+    //     super(props);
+    // }
 
     logout = (): void => {
         Auth.logout();
-        this.props.history.push('/auth');
     }
-
-    private fetchAll(route: ICrudViewerConfiguration): void {
-        BaseFetch.fetchJson(route.baseApi).then(i => {
-            if (!i.ok) return;
-            this.setState({entityList: i.data});
-        })
-    }
-
-    private getCurrentCrudRoute(): ICrudViewerConfiguration | undefined {
+    getCurrentCrudRoute = (): ICrudViewerConfiguration | undefined => {
         const path = this.props.history.location.pathname;
-        return crudRoutes.find(i => path.endsWith(i.path));
+        let found = CrudRoutes.find(i => path.endsWith(i.path));
+        if (!found) {
+            found = CrudRoutes.find(Boolean);
+            if (!found) {
+                throw new Error("Couldn't get crud route!");
+            }
+            this.props.history.push(found.path);
+            return;
+        }
+
+        return found;
     }
 
     render() {
-        const firstRoute = crudRoutes.find(Boolean);
-        const routes = crudRoutes.map(i =>
-            <Route path={`/${i.baseApi}`} key={i.baseApi}>
-                <CrudViewer config={i} entities={this.state.entityList}/>
-            </Route>
+        const routes = CrudRoutes.map(i =>
+            <Route path={'/' + i.baseApi} key={i.baseApi} render={() => {
+                const config = this.getCurrentCrudRoute();
+                return config ? <CrudContainer config={config}/> : null;
+            }}/>
         );
         return (
-            <Router>
+            <div>
+                <CrudLinkList/>
                 <Switch>
                     {routes}
-                    <Redirect to={firstRoute?.baseApi || '/'}/>
                 </Switch>
+
                 <button onClick={this.logout}>Log Out</button>
-            </Router>
+            </div>
         );
     }
 

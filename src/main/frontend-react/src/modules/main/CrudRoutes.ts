@@ -1,6 +1,6 @@
 import {ECrudViewerInputType, ICrudViewerConfiguration} from './types/CrudViewerConfiguration';
 
-export const crudRoutes: ICrudViewerConfiguration[] = [
+const CrudRoutes: ICrudViewerConfiguration[] = [
     {
         path: 'departments',
         baseApi: 'departments',
@@ -16,13 +16,15 @@ export const crudRoutes: ICrudViewerConfiguration[] = [
             {title: 'Id', path: 'id', isId: true},
             {title: 'First name', path: 'firstName'},
             {title: 'Last name', path: 'lastName'},
+            {title: 'Username', path: 'user.username', readOnly: true},
+            {title: 'Department', path: 'department.title', readOnly: true},
             {
-                title: 'User', path: 'user.id', writePath: 'userId',
-                type: ECrudViewerInputType.Select, params: 'users'
+                title: 'User', path: 'user.id', writePath: 'userId', writeOnly: true,
+                type: ECrudViewerInputType.Autocomplete, params: 'users'
             },
             {
-                title: 'Department', path: 'department.id', writePath: 'departmentId',
-                type: ECrudViewerInputType.Select, params: 'departments'
+                title: 'Department', path: 'department.id', writePath: 'departmentId', writeOnly: true,
+                type: ECrudViewerInputType.Autocomplete, params: 'departments'
             }
         ]
     },
@@ -43,7 +45,7 @@ export const crudRoutes: ICrudViewerConfiguration[] = [
             {title: 'Date', path: 'date', type: ECrudViewerInputType.Date},
             {
                 title: 'Status', path: 'status.title', writePath: 'statusId',
-                type: ECrudViewerInputType.Select, params: 'calendar-day-status'
+                type: ECrudViewerInputType.Autocomplete, params: 'calendar-day-status'
             }
         ],
         filterFields: [
@@ -68,17 +70,17 @@ export const crudRoutes: ICrudViewerConfiguration[] = [
         fields: [
             {title: 'Id', path: 'id', isId: true},
             {title: 'Date', path: 'date', type: ECrudViewerInputType.Date},
-            {title: 'Status title', path: 'status.title'},
+            {title: 'Status title', path: 'status.title', readOnly: true},
             {
-                title: 'Status', writeOnly: true, path:'status.id', writePath: 'statusId',
-                type: ECrudViewerInputType.Select, params: 'workday-result-status'
+                title: 'Status', writeOnly: true, path: 'status.id', writePath: 'statusId',
+                type: ECrudViewerInputType.Autocomplete, params: 'workday-result-status'
             },
             {
                 title: 'Worker', path: 'worker.firstName', readOnly: true
             },
             {
-                title: 'Worker', path: 'workerId', writeOnly: true,
-                type: ECrudViewerInputType.Select, params: 'workers'
+                title: 'Worker', path: 'worker.id', writePath: 'workerId', writeOnly: true,
+                type: ECrudViewerInputType.Autocomplete, params: 'workers'
             }
         ]
     },
@@ -92,3 +94,5 @@ export const crudRoutes: ICrudViewerConfiguration[] = [
         ]
     }
 ];
+
+export default CrudRoutes;
